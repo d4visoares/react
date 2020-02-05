@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "id": 2,
+      "name": "Rogério Renovo",
+      "email": "rogeriorn@bol.com"
+    },
+    {
+      "name": "Davi Soares",
+      "email": "davisoares4456@gmail.com",
+      "id": 3
+    }
+  ]
+}
