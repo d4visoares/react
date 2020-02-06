@@ -9,6 +9,11 @@
       "name": "Davi Soares",
       "email": "davisoares4456@gmail.com",
       "id": 3
+    },
+    {
+      "id": 1,
+      "name": "Augusto Mendes",
+      "email": "aug@teste.com"
     }
   ]
 }
