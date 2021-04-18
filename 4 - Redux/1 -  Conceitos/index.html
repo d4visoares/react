@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pr-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redux</title>
+  <script src="../redux.min.js"></script>
+</head>
+<body>
+  <div>
+    <h1>Total: <span id="total"></span></h1>
+    <button id="increment">Incrementar</button>
+    <button id="add">Somar</button>
+    <button id="abrir">Abrir</button>
+    <button id="fechar">Fechar</button>
+  </div>
+
+  <script>
+    const INCREMENTAR = 'INCREMENTAR';
+    const SOMAR = 'SOMAR';
+    const ABRIR = 'ABRIR';
+    const FECHAR = 'FECHAR';
+
+    function incrementar() {
+      return { type: INCREMENTAR };
+    }
+
+    function somar(payload) {
+      return { type: SOMAR, payload };
+    }
+
+    const initialState = 0;
+    
+    function contador(state = initialState, action) {
+      switch (action.type) {
+        case INCREMENTAR:
+          return state + 1;
+        case SOMAR:
+          return state + action.payload;
+        default:
+          return state
+      }
+    }
+
+    function modal(state = true, action) {
+      switch (action.type) {
+        case 'ABRIR':
+          return true;
+        case 'FECHAR':
+          return false;
+        default:
+          return state;
+      }
+    }
+
+    const reducer = Redux.combineReducers({ contador, modal })
+
+    const store = Redux.createStore(reducer);
+
+    function render() {
+      const { contador, modal } = store.getState();
+      const total = document.querySelector('#total');
+      total.innerText = contador;
+
+      if (modal) {
+        total.style.display = 'inline-block';
+      } else {
+        total.style.display = 'none';
+      }
+    }
+
+    render();
+
+    store.subscribe(render);
+
+    const button = document.querySelector('#increment');
+    const buttonAdd = document.querySelector('#add');
+    const abrir = document.querySelector('#abrir');
+    const fechar = document.querySelector('#fechar');
+
+    button.addEventListener('click', () => store.dispatch(incrementar()));
+    buttonAdd.addEventListener('click', () => store.dispatch(somar(20)));
+    abrir.addEventListener('click', () => store.dispatch({ type: 'ABRIR'}));
+    fechar.addEventListener('click', () => store.dispatch({ type: 'FECHAR' }));
+
+    
+  </script>
+</body>
+</html>

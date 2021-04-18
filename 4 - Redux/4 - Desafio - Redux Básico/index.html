@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./immer.min.js"></script>
+  <script src="./redux.min.js"></script>
+  <title>Organização</title>
+</head>
+<body>
+  <div id="container-information">
+    <h1 id="username"></h1>
+    <h2 id="email"></h1>
+    <h2 id="days-remaining"></h1>
+    <h2 id="completed-classes"></h2>
+  </div>
+  <script type="module">
+    import store from './store/configureStore.js';
+    import { incrementarTempo, reduzirTempo, modificarEmail } from './store/alunos.js';
+    import { completarAula, completarCurso, resetarCurso } from './store/aulas.js';
+    
+    function render() {
+      const { alunos, aulas } = store.getState();
+
+      console.log(store.getState());
+
+      const username = document.getElementById('username');
+      const email = document.getElementById('email');
+      const daysRemaining = document.getElementById('days-remaining');
+      const completedClasses = document.getElementById('completed-classes');
+
+      username.innerText = alunos.nome;
+      email.innerText = alunos.email;
+      daysRemaining.innerText = alunos.diasRestantes;
+      completedClasses.innerText = aulas.reduce((accumulator, item) => {
+        if (item.completa)
+        accumulator += 1;
+
+        return accumulator;
+      }, 0)
+    }
+
+    render();
+
+    store.subscribe(render);
+  
+    store.dispatch(completarCurso());
+    store.dispatch(resetarCurso());
+    store.dispatch(completarAula(1));
+    store.dispatch(completarAula(4));
+  </script>
+</body>
+</html>

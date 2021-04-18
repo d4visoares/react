@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./immer.min.js"></script>
+  <script src="./redux.min.js"></script>
+  <title>Função Pura</title>
+</head>
+<body>
+  <script>
+
+    const initialState = {
+      name: 'Davi',
+      idade: 19,
+    }
+
+    const reducer = immer.produce((state, action) => {
+      switch (action.type) {
+        case 'MUDAR_NOME':
+          state.name = action.payload;
+          break;
+        case 'MUDAR_IDADE':
+          state.idade = action.payload;
+          break;
+      }
+    }, initialState);
+
+    const store = Redux.createStore(
+      reducer,
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    );
+
+    store.dispatch({ type: 'MUDAR_NOME', payload: 'Mario' })
+    store.dispatch({ type: 'MUDAR_IDADE', payload: 47 })
+
+  </script>
+</body>
+</html>
